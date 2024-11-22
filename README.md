@@ -2,7 +2,7 @@
 
 An interactive web application that dynamically fetches and displays images using Unsplash's API. Infinite scrolling ensures that new images are loaded automatically as the user scrolls down. This application is built using React and Tailwind CSS for a seamless and responsive experience.
 
-🌐 **[Live Demo](https://infinite-image-scroll.vercel.app/)**
+🌐 **[Live Demo](https://infinite-scroll-cyan.vercel.app/)**
 
 ---
 
