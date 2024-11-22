@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Masonry from "react-masonry-css";
+import Input from "./components/Input";
+import InputError from "./components/InputError";
+import Loader from "./components/Loader";
+import NetworkError from "./components/NetworkError";
 
 const breakpointColumns = {
   default: 4, // Default number of columns
@@ -103,47 +107,15 @@ function App() {
     setPhotos([]); // Clear the current photos
   };
 
-  const handleRefresh = () => {
-    window.location.reload(); // Refresh the page
-  };
-
-  const handleCancel = () => {
-    setError(null); // Hide the error message
-  };
+ 
 
   return (
     <div className="relative px-3 min-h-screen bg-gradient-to-r  from-indigo-500 via-purple-500 to-pink-500">
       {/* Conditionally apply the blur effect to the background */}
       {error && <div className="absolute inset-0 bg-black opacity-50 blur-sm z-10" />}
-      
-      <div className="flex justify-center">
-        <div className={`${inputmsg ? "mt-10" : "my-7"}  border max-w-lg md:w-96 flex justify-between pr-1 py-1 bg-white rounded-lg space-x-3  z-20 relative`}>
-        <input
-          type="text"
-          placeholder="Search Images..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="form-control ml-3 focus:outline-none"
-          aria-label="Search for images"
-          required
-        />
-
-          <button
-            type="button"
-            onClick={handleSubmit}
-            className="px-3 py-1 bg-gray-200 hover:bg-gray-400 rounded-md"
-            aria-label="Submit search"
-          >
-            Search
-          </button>
-        </div>
-      </div>
-      {inputmsg && (
-          <div className="text-center mt-1">
-            {inputmsg}
-          </div>
-        )}
-    
+      <Input query ={query} setQuery={setQuery} inputmsg={inputmsg} handleSubmit={handleSubmit}/>
+      <InputError inputmsg={inputmsg} />
+      <Loader loading={loading} />
       <Masonry
         breakpointCols={breakpointColumns}
         className="my-masonry-grid"
@@ -173,31 +145,8 @@ function App() {
           </div>
         ))}
       </Masonry>
-
       {/* Error Message centered on the screen, sticky while scrolling */}
-      {error && (
-        <div className="fixed inset-0 flex items-center justify-center z-30" role="alert">
-          <div className="bg-white text-red-500 text-xl font-bold p-6 rounded-lg shadow-lg">
-            <p>{error}</p>
-            <div className="mt-4 flex justify-center gap-4">
-              <button
-                onClick={handleCancel}
-                className="bg-gray-200 hover:bg-gray-400 text-black font-semibold py-2 px-4 rounded-md"
-                aria-label="Close error message"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleRefresh}
-                className="bg-blue-200 hover:bg-blue-400 text-black font-semibold py-2 px-4 rounded-md"
-                aria-label="Refresh the page"
-              >
-                Refresh
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <NetworkError error={error} />
     </div>
   );
 }
